@@ -1,0 +1,29 @@
+logger:
+  default: env("LOG_CHANNEL", "stack")
+
+  channels:
+    stack:
+      driver: stack
+      channels: ["deily"]
+
+    single:
+      driver: single
+      path: logs/logs.log
+      level: DEBUG
+      days: 30
+
+    slack:
+      driver: slack
+      url: http://localhost/logs/slack_webhook
+      username: log
+      emojo: ":boom:"
+      level: CRITICAL
+
+    syslog:
+      driver: syslog
+      level: DEBUG
+
+    console:
+      driver: console
+      level: DEBUG
+      
