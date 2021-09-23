@@ -23,21 +23,29 @@ func LogFormatter(msg interface{}) []byte {
 }
 
 type LineFormatter struct {
-	formatter  string
+	format     string
 	timeFormat string
 }
 
-func (lf *LineFormatter) Format(data map[string]interface{}) string {
-	if "" == lf.formatter {
-		lf.formatter = "[$datetime] ($file, $line) [$level]: $message"
+func (lf *LineFormatter) getFormat() string {
+	if "" == lf.format {
+		lf.format = "[$datetime] ($file, $line) [$level]: $message"
 	}
+	return lf.format
+}
+
+func (lf *LineFormatter) getTimeFormat() string {
 	if "" == lf.timeFormat {
 		lf.timeFormat = dateFormat
 	}
+	return lf.timeFormat
+}
 
-	data["datetime"] = data["datetime"].(time.Time).Format(lf.timeFormat)
+func (lf *LineFormatter) Format(data map[string]interface{}) string {
 
-	msg := lf.formatter
+	data["datetime"] = data["datetime"].(time.Time).Format(lf.getTimeFormat())
+
+	msg := lf.getFormat()
 	for k, val := range data {
 		msg = strings.Replace(msg, "$"+k, fmt.Sprintf("%v", val), -1)
 	}
