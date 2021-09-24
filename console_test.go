@@ -12,11 +12,6 @@ func TestConsole(t *testing.T) {
 	cl := NewConsoleWriter(LevelWarn)
 	lg := NewLogger("console", cl, cl)
 
-	//if e := lg.Write("> Hello world"); e != nil {
-	//panic(e)
-	//}
-	fmt.Println(lg.GetWriters())
-
 	lg.Emerg("19: Has Error")
 
 	lg.PopWriter()

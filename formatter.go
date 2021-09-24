@@ -29,7 +29,7 @@ type LineFormatter struct {
 
 func (lf *LineFormatter) getFormat() string {
 	if "" == lf.format {
-		lf.format = "[$datetime] ($file, $line) [$level]: $message"
+		lf.format = "[$datetime] ($file, $line) [$level]: $message $context"
 	}
 	return lf.format
 }
@@ -43,6 +43,9 @@ func (lf *LineFormatter) getTimeFormat() string {
 
 func (lf *LineFormatter) Format(data map[string]interface{}) string {
 
+	if ctx, _ := data["context"]; len(ctx.([]interface{})) == 0 {
+		data["context"] = ""
+	}
 	data["datetime"] = data["datetime"].(time.Time).Format(lf.getTimeFormat())
 
 	msg := lf.getFormat()

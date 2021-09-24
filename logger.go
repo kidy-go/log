@@ -76,9 +76,6 @@ func (lg *Logger) Write(calldepth int, level Level, message interface{}, context
 
 	// formatter
 	_, file, ln, _ := runtime.Caller(calldepth)
-	//datetime := (time.Now()).Format(dateFormat)
-	//msg := fmt.Sprintf("[%s] (%s:%d) [%s]: %v\n", date, file, ln, level, message)
-
 	msg := lg.formatter.Format(map[string]interface{}{
 		"datetime": time.Now(),
 		"file":     file,
